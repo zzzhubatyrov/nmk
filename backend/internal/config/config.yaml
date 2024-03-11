@@ -1,7 +1,0 @@
-db:
-  host: localhost
-  username: creator
-  password: admin
-  dbname: nmkpty
-  port: "5432"
-  sslmode: disable
