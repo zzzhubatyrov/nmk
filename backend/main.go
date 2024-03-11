@@ -25,8 +25,10 @@ func main() {
 	if err != nil {
 		_ = fmt.Errorf("failed to initialize db: %s", err.Error())
 	}
+	// redisBase
+	rb := db.NewRedisDB()
 
-	repos := repository.NewRepository(database)
+	repos := repository.NewRepository(database, rb)
 	service := service.NewService(repos)
 	handlers := handler.NewHandler(service)
 
