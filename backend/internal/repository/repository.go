@@ -14,4 +14,3 @@ func NewRepository(db *gorm.DB) *Repository {
 		MainRouteRepo: NewMainRoute(db),
 	}
 }
-
