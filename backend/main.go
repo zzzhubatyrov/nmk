@@ -6,6 +6,7 @@ import (
 	"backend/internal/repository/db"
 	"backend/internal/service"
 	"fmt"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/spf13/viper"
@@ -25,11 +26,17 @@ func main() {
 		_ = fmt.Errorf("failed to initialize db: %s", err.Error())
 	}
 
-	app := fiber.New()
 	repos := repository.NewRepository(database)
 	service := service.NewService(repos)
 	handlers := handler.NewHandler(service)
-	handlers.InitRoute(app)
 
+	app := fiber.New()
+	app.Use(cors.New(cors.Config{
+		AllowOrigins:     "http://localhost:3000",
+		AllowHeaders:     "Origin, Content-Type, Accept, Authorization",
+		AllowCredentials: true,
+	}))
+
+	handlers.InitRoute(app)
 	app.Listen(":5000")
 }
