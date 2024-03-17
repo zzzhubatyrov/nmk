@@ -15,4 +15,3 @@ func NewService(repo *repository.Repository) *Service {
 		MainRouteService: NewMainRouteService(repo),
 	}
 }
-

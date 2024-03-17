@@ -1,6 +1,6 @@
 db:
   host: localhost
-  username: creator
+  username: postgres
   password: admin
   dbname: nmkpty
   port: "5432"
