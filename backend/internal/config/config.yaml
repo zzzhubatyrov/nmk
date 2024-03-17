@@ -1,7 +1,7 @@
 db:
   host: localhost
-  username: zen
-  password: p0gertw1ce
+  username: postgres
+  password: admin
   dbname: nmkpty
   port: "5432"
   sslmode: disable

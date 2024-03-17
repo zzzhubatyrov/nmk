@@ -2,10 +2,12 @@ package main
 
 import (
 	"backend/internal/handler"
+	"backend/internal/model"
 	"backend/internal/repository"
 	"backend/internal/repository/db"
 	"backend/internal/service"
 	"fmt"
+
 	"github.com/gofiber/fiber/v2/middleware/cors"
 
 	"github.com/gofiber/fiber/v2"
@@ -13,6 +15,9 @@ import (
 )
 
 func main() {
+	if err := initConfig(); err != nil {
+		_ = fmt.Errorf("error initializing configs: %s", err.Error())
+	}
 
 	database, err := db.NewPostgresDB(db.Config{
 		Host:     viper.GetString("db.host"),
@@ -25,6 +30,14 @@ func main() {
 	if err != nil {
 		_ = fmt.Errorf("failed to initialize db: %s", err.Error())
 	}
+
+	models := []interface{}{
+		&model.User{},
+	}
+
+	migrator := database.Migrator()
+	_ = migrator.DropTable(models...)
+	_ = database.AutoMigrate(models...)
 
 	repos := repository.NewRepository(database)
 	service := service.NewService(repos)
@@ -39,4 +52,11 @@ func main() {
 
 	handlers.InitRoute(app)
 	app.Listen(":5000")
+}
+
+func initConfig() error {
+	viper.SetConfigName("config")
+	viper.SetConfigType("yaml")
+	viper.AddConfigPath("internal/config")
+	return viper.ReadInConfig()
 }
