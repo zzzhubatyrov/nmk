@@ -4,6 +4,9 @@ import "backend/internal/repository"
 
 type MainRouteService interface {
 	GetData() (map[string]string, error)
+	// UpdateData For test)
+	UpdateData()
+	DeleteData()
 }
 
 type Service struct {
@@ -15,4 +18,3 @@ func NewService(repo *repository.Repository) *Service {
 		MainRouteService: NewMainRouteService(repo),
 	}
 }
-

@@ -28,6 +28,13 @@ func main() {
 	// redisBase
 	rb := db.NewRedisDB()
 
+	models := []interface{}{
+		&model.User{},
+	}
+	migrator := database.Migrator()
+	_ = migrator.DropTable(models...)
+	_ = database.AutoMigrate(models...)
+
 	repos := repository.NewRepository(database, rb)
 	service := service.NewService(repos)
 	handlers := handler.NewHandler(service)
