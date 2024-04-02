@@ -4,6 +4,9 @@ import "backend/internal/repository"
 
 type MainRouteService interface {
 	GetData() (map[string]string, error)
+	// UpdateData For test)
+	UpdateData()
+	DeleteData()
 }
 
 type Service struct {
